@@ -12,4 +12,12 @@ Welcome to my repository of competition preparation resources! This repository c
 
 1. Explore the directories to find the templates, macros, or libraries you need.  
 2. Incorporate them into your competition workflow to save time and focus on solving problems.  
-3. Review the algorithmic techniques to improve your understanding and approach to challenges. 
+3. Review the algorithmic techniques to improve your understanding and approach to challenges.  
+
+---
+
+<div align="center">  
+<img src="https://www.oi.edu.pl/static/attachment/20200421/logo-oi-czarne_3.png" alt="OI Logo" width="50px">  
+<img src="https://cdn.iconscout.com/icon/free/png-256/free-code-forces-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-2-pack-logos-icons-2944796.png?f=webp&w=256" alt="Codeforces Logo" width="50px">  
+<img src="https://i.imgur.com/1mSIKP4.png" alt="GeeksforGeeks Logo" width="50px">  
+</div>  
