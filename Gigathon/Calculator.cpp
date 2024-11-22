@@ -252,16 +252,67 @@ double parseMedianOrMeanFunction(const string& expression, const string& functio
     throw invalid_argument("Unknown function: " + functionName);
 }
 
+// Funkcja `evaluateExpression` wykonuje cała logike obliczania ekspresji.
 double evaluateExpression(const string& expression) {
+    string processedExpression;
+    for (size_t i = 0; i < expression.length(); ++i) {
+        char currentChar = expression[i];
+        char nextChar = (i + 1 < expression.length()) ? expression[i + 1] : '\0';
+
+        processedExpression += currentChar;
+
+        // Dodaj '*' (operator mnożenia), jeśli zamykający nawias jest bezpośrednio poprzedzony przez otwierający nawias lub cyfrę
+        if (currentChar == ')' && (nextChar == '(' || isdigit(nextChar))) {
+            processedExpression += '*';
+        }
+
+        // Dodaj '*' (operator mnożenia), jeśli cyfra lub '.' (kropka dziesiętna) jest bezpośrednio przed otwierającym nawiasem '('.
+        if ((isdigit(currentChar) || currentChar == '.') && nextChar == '(') {
+            processedExpression += '*';
+        }
+    }
+
+    const string& finalExpression = processedExpression;
+
+    // Sprawdzamy, czy `sort`, `median`, lub `mean` występuje w wyrażeniu.
+    size_t sortPos = finalExpression.find("sort");
+    size_t medianPos = finalExpression.find("median");
+    size_t meanPos = finalExpression.find("mean");
+    bool containsSort = sortPos != string::npos;
+    bool containsMedian = medianPos != string::npos;
+    bool containsMean = meanPos != string::npos;
+
+    if (containsSort) {
+        // Upewniamy się, że `sort` jest jedyną funkcją w wyrażeniu.
+        if (expression.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(),.*-/+ ") < sortPos) {
+            throw invalid_argument("No other operations are allowed if 'sort' is used");
+        }
+
+        vector<double> sortedValues = parseSortFunction(expression);
+
+        // Wypisanie wyniku w formie listy.
+        cout << "Sorted values: ";
+        for (double value : sortedValues) {
+            cout << value << " ";
+        }
+        cout << endl;
+
+        // Opcjonalnie zwracamy pierwszy element jako wynik (lub inną regułę, jeśli chcesz).
+        return sortedValues.empty() ? 0 : sortedValues[0];
+    } else if (containsMedian) {
+        return parseMedianOrMeanFunction(finalExpression, "median");
+    } else if (containsMean) {
+        return parseMedianOrMeanFunction(finalExpression, "mean");
+    }
+    
     // Stos do przechowywania wartości liczbowych.
     stack<double> valuesStack;
     // Stos do przechowywania operatorów i nawiasów.
     stack<char> operatorsStack;
     // Inicjalizacja strumienia, który umożliwia analizowanie wyrażenia.
-    stringstream ss(expression);
+    stringstream ss(finalExpression);
     // Zmienna do przechowywania aktualnie odczytanego tokenu (znaku).
     char token;
-    char prevToken = '\0'; // Zmienna do przechowywania poprzedniego tokenu
     
     // Rozpoczęcie pętli przetwarzającej wyrażenie znak po znaku.
     while (ss >> ws >> token) {
@@ -331,10 +382,6 @@ double evaluateExpression(const string& expression) {
         }
         // Obsługa nawiasów otwierających.
         else if (token == '(') {
-            // Sprawdzamy, czy poprzedni token był liczbą lub zamykającym nawiasem, aby dodać operator mnożenia.
-            if (isdigit(prevToken) || prevToken == ')') {
-                operatorsStack.push('*');
-            }
             operatorsStack.push(token);  // Wkładamy nawias otwierający na stos operatorów.
         }
         // Obsługa nawiasów zamykających.
@@ -371,7 +418,6 @@ double evaluateExpression(const string& expression) {
         } else {
             throw invalid_argument("Invalid character in expression");  // Zgłaszamy błąd, jeśli token jest niepoprawny.
         }
-        prevToken = token; // Aktualizujemy poprzedni token.
     }
 
     // Wykonujemy wszystkie pozostałe operacje na końcu, jeżeli jakieś zostały na stosie.
@@ -393,11 +439,12 @@ double evaluateExpression(const string& expression) {
 
 int main() {
     string input;
+    cout << "Enter a mathematical expression: ";
     getline(cin, input);
 
     try {
         double result = evaluateExpression(input);
-        cout << result << endl;
+        cout << "Result: " << result << endl;
     } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
     }
