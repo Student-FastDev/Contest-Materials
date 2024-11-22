@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <algorithm>
 #include <unordered_map>
@@ -607,7 +608,7 @@ unsigned long long superFactorial(int n) {
     return result;
 }
 
-// Function to return the hyperfactorial of a number n.
+// Funkcja zwracająca hiper silnie liczby n.
 unsigned long long hyperFactorial(int n) {
     unsigned long long result = 1;
     for (int i = 1; i <= n; ++i) {
@@ -616,7 +617,7 @@ unsigned long long hyperFactorial(int n) {
     return result;
 }
 
-// Function to check if a number is an Armstrong number.
+// Funkcja sprawdzająca, czy liczba jest liczbą Armstronga.
 bool isArmstrongNumber(int n) {
     int original = n, sum = 0;
     int numDigits = static_cast<int>(log10(n)) + 1;
@@ -628,7 +629,7 @@ bool isArmstrongNumber(int n) {
     return sum == original;
 }
 
-// Function to generate Pascal's Triangle with a given number of rows.
+// Funkcja generująca trójkąt Pascala z daną liczbą wierszy.
 vector<vector<int>> generatePascalsTriangle(int numRows) {
     vector<vector<int>> triangle(numRows);
     for (int i = 0; i < numRows; ++i) {
@@ -641,15 +642,98 @@ vector<vector<int>> generatePascalsTriangle(int numRows) {
     return triangle;
 }
 
-// Function to return the sum of squares of the first n natural numbers.
+// Funkcja zwracająca sumę kwadratów pierwszych n liczb naturalnych.
 unsigned long long sumOfSquares(int n) {
     return (n * (n + 1) * (2 * n + 1)) / 6;
 }
 
-// Function to return the sum of cubes of the first n natural numbers.
+// Funkcja zwracająca sumę sześcianów pierwszych n liczb naturalnych.
 unsigned long long sumOfCubes(int n) {
     unsigned long long sum = (n * (n + 1)) / 2;
     return sum * sum;
+}
+
+// Funkcja drukująca prostokąt o podanej szerokości i wysokości.
+void printRectangle(int width, int height) {
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+}
+
+// Funkcja drukująca trójkąt prostokątny o podanej wysokości.
+void printRightAngledTriangle(int height) {
+    for (int i = 1; i <= height; ++i) {
+        for (int j = 0; j < i; ++j) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+}
+
+// Funkcja drukująca trójkąt równoboczny o podanej wysokości.
+void printEquilateralTriangle(int height) {
+    for (int i = 1; i <= height; ++i) {
+        for (int j = 0; j < height - i; ++j) {
+            cout << " ";
+        }
+        for (int j = 0; j < 2 * i - 1; ++j) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+}
+
+// Funkcja drukująca trójkąt równoramienny o podanej wysokości.
+void printIsoscelesTriangle(int height) {
+    printEquilateralTriangle(height);
+}
+
+// Funkcja drukująca trójkąt różnoboczny o podanej wysokości.
+void printScaleneTriangle(int height) {
+    for (int i = 1; i <= height; ++i) {
+        for (int j = 0; j < i; ++j) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+}
+
+// Funkcja drukująca trójkąt na podstawie długości boków.
+void printTriangle(int a, int b, int c) {
+    if (!canFormTriangle(a, b, c)) {
+        cout << "Boki nie tworzą trójkąta." << endl;
+        return;
+    }
+    int height = min({a, b, c});
+    if (isRightAngledTriangle(a, b, c)) {
+        printRightAngledTriangle(height);
+    } else if (isEquilateralTriangle(a, b, c)) {
+        printEquilateralTriangle(height);
+    } else if (isIsoscelesTriangle(a, b, c)) {
+        printIsoscelesTriangle(height);
+    } else {
+        printScaleneTriangle(height);
+    }
+}
+
+// Funkcja drukująca okrąg na podstawie obwodu.
+void printCircle(double circumference) {
+    double radius = circumference / (2 * M_PI);
+    int n = static_cast<int>(radius * 2);
+    for (int i = 0; i <= n; ++i) {
+        for (int j = 0; j <= n; ++j) {
+            double distance = sqrt(pow(i - radius, 2) + pow(j - radius, 2));
+            if (distance > radius - 0.5 && distance < radius + 0.5) {
+                cout << "*";
+            } else {
+                cout << " ";
+            }
+        }
+        cout << endl;
+    }
 }
 
 int main() {
