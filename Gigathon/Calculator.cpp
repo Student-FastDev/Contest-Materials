@@ -16,8 +16,8 @@ double evaluateExpression(const string& expression);
 
 // Funkcja obliczająca silnię (factorial).
 double factorialFunction(double value) {
-    if (value < 0) throw runtime_error("Factorial of a negative number is undefined");
-    if (value != floor(value)) throw runtime_error("Factorial is defined only for integers");
+    if (value < 0) throw runtime_error("Factorial of a negative number is undefined.");
+    if (value != floor(value)) throw runtime_error("Factorial is defined only for integers.");
     double result = 1;
     for (int i = 1; i <= static_cast<int>(value); i++) {
         result *= i;
@@ -27,7 +27,7 @@ double factorialFunction(double value) {
 
 // Funkcja obliczająca największy wspólny dzielnik (NWD) dwóch liczb.
 double gcdFunction(double a, double b) {
-    if (a != floor(a) || b != floor(b)) throw runtime_error("GCD is defined only for integers");
+    if (a != floor(a) || b != floor(b)) throw runtime_error("GCD is defined only for integers.");
     while (b != 0) {
         double tempVariable = fmod(a, b);
         a = b;
@@ -61,10 +61,10 @@ double applyBinaryOperator(double numberA, double numberB, char operatorChar) {
         case '-': return numberA - numberB;
         case '*': return numberA * numberB;
         case '/':
-            if (numberB == 0) throw runtime_error("Division by zero");
+            if (numberB == 0) throw runtime_error("Division by zero.");
             return numberA / numberB;
         case '%':
-            if (numberB == 0) throw runtime_error("Modulo by zero");
+            if (numberB == 0) throw runtime_error("Modulo by zero.");
             return static_cast<int>(numberA) % static_cast<int>(numberB);
         case '^': return pow(numberA, numberB);
         case '&': return static_cast<int>(numberA) & static_cast<int>(numberB);
@@ -74,7 +74,7 @@ double applyBinaryOperator(double numberA, double numberB, char operatorChar) {
         case '=': return numberA == numberB ? 1 : 0;
         case '~': return static_cast<int>(~static_cast<int>(numberA));
         default:
-            throw invalid_argument("Unknown operator");
+            throw invalid_argument("Unknown operator.");
     }
 }
 
@@ -84,7 +84,7 @@ double applyUnaryOperator(double value, char operatorChar) {
         case '!': return value == 0 ? 1 : 0;
         case '~': return ~static_cast<int>(value);
         default:
-            throw invalid_argument("Unknown unary operator");
+            throw invalid_argument("Unknown unary operator.");
     }
 }
 
@@ -95,7 +95,7 @@ double toRadians(double degreesValue) {
 
 // Funkcja obliczająca n-ty wyraz ciągu Fibonacciego za pomocą potęgowania macierzy.
 double fibFunction(double value) {
-    if (value != floor(value) || value < 0) throw runtime_error("Fibonacci is defined only for non-negative integers");
+    if (value != floor(value) || value < 0) throw runtime_error("Fibonacci is defined only for non-negative integers.");
     int n = static_cast<int>(value);
     if (n == 0) return 0;
     if (n == 1) return 1;
@@ -135,13 +135,13 @@ double primeFunction(double value) {
 // Funkcja stosująca funkcję unarną.
 double applyUnaryFunction(const string& functionName, double value) {
     if (functionName == "sqrt") {
-        if (value < 0) throw runtime_error("Square root of a negative number");
+        if (value < 0) throw runtime_error("Square root of a negative number.");
         return sqrt(value);
     } else if (functionName == "log") {
-        if (value <= 0) throw runtime_error("Logarithm of a non-positive number");
+        if (value <= 0) throw runtime_error("Logarithm of a non-positive number.");
         return log10(value);
     } else if (functionName == "ln") {
-        if (value <= 0) throw runtime_error("Natural log of a non-positive number");
+        if (value <= 0) throw runtime_error("Natural log of a non-positive number.");
         return log(value);
     } else if (functionName == "exp") {
         return exp(value);
@@ -172,7 +172,7 @@ double applyUnaryFunction(const string& functionName, double value) {
     } else if (functionName == "prime") {
         return primeFunction(value); // Wywołanie funkcji sprawdzającej pierwszość liczby.
     }
-    throw invalid_argument("Unknown function: " + functionName);
+    throw invalid_argument("Unknown function: " + functionName + ".");
 }
 
 // Funkcja stosująca funkcję dwuargumentową.
@@ -180,7 +180,7 @@ double applyBinaryFunction(const string& functionName, double a, double b) {
     if (functionName == "gcd") {
         return gcdFunction(a, b); // Wywołanie funkcji NWD.
     }
-    throw invalid_argument("Unknown binary function: " + functionName);
+    throw invalid_argument("Unknown binary function: " + functionName + ".");
 }
 
 // Funkcja sortująca argumenty.
@@ -193,7 +193,7 @@ vector<double> sortFunction(const vector<double>& args) {
 // Funkcja obliczająca wartość wyrażenia z `sort`.
 vector<double> parseSortFunction(const string& expression) {
     if (expression.find('(') == string::npos || expression.back() != ')') {
-        throw invalid_argument("Function 'sort' must have arguments enclosed in parentheses");
+        throw invalid_argument("Function 'sort' must have arguments enclosed in parentheses.");
     }
 
     string innerExpression = expression.substr(expression.find('(') + 1, expression.length() - expression.find('(') - 2);
@@ -210,7 +210,7 @@ vector<double> parseSortFunction(const string& expression) {
 
 // Funkcja obliczająca medianę.
 double medianFunction(const vector<double>& args) {
-    if (args.empty()) throw runtime_error("Median of an empty list is undefined");
+    if (args.empty()) throw runtime_error("Median of an empty list is undefined.");
     vector<double> sortedArgs = args;
     sort(sortedArgs.begin(), sortedArgs.end());
     size_t size = sortedArgs.size();
@@ -223,7 +223,7 @@ double medianFunction(const vector<double>& args) {
 
 // Funkcja obliczająca średnią.
 double meanFunction(const vector<double>& args) {
-    if (args.empty()) throw runtime_error("Mean of an empty list is undefined");
+    if (args.empty()) throw runtime_error("Mean of an empty list is undefined.");
     double sum = accumulate(args.begin(), args.end(), 0.0);
     return sum / args.size();
 }
@@ -231,7 +231,7 @@ double meanFunction(const vector<double>& args) {
 // Funkcja obliczająca wartość wyrażenia z `median` lub `mean`.
 double parseMedianOrMeanFunction(const string& expression, const string& functionName) {
     if (expression.find('(') == string::npos || expression.back() != ')') {
-        throw invalid_argument("Function '" + functionName + "' must have arguments enclosed in parentheses");
+        throw invalid_argument("Function '" + functionName + "' must have arguments enclosed in parentheses.");
     }
 
     string innerExpression = expression.substr(expression.find('(') + 1, expression.length() - expression.find('(') - 2);
@@ -258,10 +258,19 @@ double evaluateExpression(const string& expression) {
     for (size_t i = 0; i < expression.length(); ++i) {
         char currentChar = expression[i];
         char nextChar = (i + 1 < expression.length()) ? expression[i + 1] : '\0';
+        char prevChar = (i > 0) ? expression[i - 1] : '\0';
+
+        if (currentChar == '-') {
+            // Jeśli '-' oznacza liczbę ujemną, zastąp ją '(0-'.
+            if (i == 0 || prevChar == '(' || isOperator(prevChar)) {
+                processedExpression += "(0-";
+                continue; // Przechodzimy do następnego znaku.
+            }
+        }
 
         processedExpression += currentChar;
 
-        // Dodaj '*' (operator mnożenia), jeśli zamykający nawias jest bezpośrednio poprzedzony przez otwierający nawias lub cyfrę
+        // Dodaj '*' (operator mnożenia), jeśli zamykający nawias jest bezpośrednio poprzedzony przez otwierający nawias lub cyfrę.
         if (currentChar == ')' && (nextChar == '(' || isdigit(nextChar))) {
             processedExpression += '*';
         }
@@ -269,6 +278,18 @@ double evaluateExpression(const string& expression) {
         // Dodaj '*' (operator mnożenia), jeśli cyfra lub '.' (kropka dziesiętna) jest bezpośrednio przed otwierającym nawiasem '('.
         if ((isdigit(currentChar) || currentChar == '.') && nextChar == '(') {
             processedExpression += '*';
+        }
+    }
+
+    // Zamykamy wszystkie nawiasy otwarte przez '(0-'.
+    for (size_t i = 0; i < processedExpression.length(); ++i) {
+        if (processedExpression[i] == '(' && i + 3 <= processedExpression.length() &&
+            processedExpression.substr(i, 3) == "(0-") {
+            size_t j = i + 3;
+            while (j < processedExpression.length() && isdigit(processedExpression[j])) {
+                j++;
+            }
+            processedExpression.insert(j, ")");
         }
     }
 
@@ -285,7 +306,7 @@ double evaluateExpression(const string& expression) {
     if (containsSort) {
         // Upewniamy się, że `sort` jest jedyną funkcją w wyrażeniu.
         if (expression.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(),.*-/+ ") < sortPos) {
-            throw invalid_argument("No other operations are allowed if 'sort' is used");
+            throw invalid_argument("No other operations are allowed if 'sort' is used.");
         }
 
         vector<double> sortedValues = parseSortFunction(expression);
@@ -295,7 +316,7 @@ double evaluateExpression(const string& expression) {
         for (double value : sortedValues) {
             cout << value << " ";
         }
-        cout << endl;
+        cout << "." << endl;
 
         // Opcjonalnie zwracamy pierwszy element jako wynik (lub inną regułę, jeśli chcesz).
         return sortedValues.empty() ? 0 : sortedValues[0];
@@ -342,7 +363,7 @@ double evaluateExpression(const string& expression) {
     
             // Sprawdzamy, czy po nazwie funkcji występuje '('.
             if (ss.peek() != '(') {
-                throw invalid_argument("Function '" + functionName + "' must be followed by '('");
+                throw invalid_argument("Function '" + functionName + "' must be followed by '('.");
             }
             ss.get();  // Odczytujemy '('.
     
@@ -351,7 +372,7 @@ double evaluateExpression(const string& expression) {
     
             // Odczytujemy argumenty funkcji, obsługując nawiasy.
             while (parenthesesCount > 0) {
-                if (ss.peek() == EOF) throw runtime_error("Mismatched parentheses in function");
+                if (ss.peek() == EOF) throw runtime_error("Mismatched parentheses in function.");
                 ss >> token;
                 if (token == '(') parenthesesCount++;  // Zwiększamy licznik nawiasów otwierających.
                 if (token == ')') parenthesesCount--;  // Zmniejszamy licznik nawiasów zamykających.
@@ -362,7 +383,7 @@ double evaluateExpression(const string& expression) {
             // Jeśli to funkcja 'gcd', wykonujemy odpowiednie obliczenia.
             if (functionName == "gcd") {
                 size_t comma = innerExpression.find(',');
-                if (comma == string::npos) throw invalid_argument("Function 'gcd' expects two arguments");
+                if (comma == string::npos) throw invalid_argument("Function 'gcd' expects two arguments.");
     
                 double arg1 = evaluateExpression(innerExpression.substr(0, comma));  // Pierwszy argument.
                 double arg2 = evaluateExpression(innerExpression.substr(comma + 1));  // Drugi argument.
@@ -388,6 +409,7 @@ double evaluateExpression(const string& expression) {
         else if (token == ')') {
             // Wykonujemy operacje do momentu napotkania nawiasu otwierającego.
             while (!operatorsStack.empty() && operatorsStack.top() != '(') {
+                if (valuesStack.size() < 2) throw runtime_error("Insufficient values for binary operation.");
                 double numberB = valuesStack.top(); valuesStack.pop();
                 double numberA = valuesStack.top(); valuesStack.pop();
                 char operatorChar = operatorsStack.top(); operatorsStack.pop();
@@ -395,12 +417,13 @@ double evaluateExpression(const string& expression) {
             }
             // Sprawdzamy, czy nawiasy są dobrze sparowane.
             if (operatorsStack.empty() || operatorsStack.top() != '(') {
-                throw runtime_error("Mismatched parentheses");
+                throw runtime_error("Mismatched parentheses.");
             }
             operatorsStack.pop();  // Usuwamy nawias otwierający ze stosu.
         }
         // Obsługa operatorów unarnych (np. !, ~)
         else if (token == '!' || token == '~') {
+            if (valuesStack.empty()) throw runtime_error("Insufficient values for unary operation.");
             double value = valuesStack.top();
             valuesStack.pop();
             valuesStack.push(applyUnaryOperator(value, token));  // Stosujemy operator unarny.
@@ -409,6 +432,7 @@ double evaluateExpression(const string& expression) {
         else if (isOperator(token)) {
             // Sprawdzamy priorytet operatorów i wykonujemy operacje, jeśli to konieczne.
             while (!operatorsStack.empty() && getOperatorPrecedence(operatorsStack.top()) >= getOperatorPrecedence(token)) {
+                if (valuesStack.size() < 2) throw runtime_error("Insufficient values for binary operation.");
                 double numberB = valuesStack.top(); valuesStack.pop();
                 double numberA = valuesStack.top(); valuesStack.pop();
                 char operatorChar = operatorsStack.top(); operatorsStack.pop();
@@ -416,12 +440,13 @@ double evaluateExpression(const string& expression) {
             }
             operatorsStack.push(token);  // Wkładamy operator na stos.
         } else {
-            throw invalid_argument("Invalid character in expression");  // Zgłaszamy błąd, jeśli token jest niepoprawny.
+            throw invalid_argument("Invalid character in expression.");  // Zgłaszamy błąd, jeśli token jest niepoprawny.
         }
     }
 
     // Wykonujemy wszystkie pozostałe operacje na końcu, jeżeli jakieś zostały na stosie.
     while (!operatorsStack.empty()) {
+        if (valuesStack.size() < 2) throw runtime_error("Insufficient values for binary operation.");
         double numberB = valuesStack.top(); valuesStack.pop();
         double numberA = valuesStack.top(); valuesStack.pop();
         char operatorChar = operatorsStack.top(); operatorsStack.pop();
@@ -430,7 +455,7 @@ double evaluateExpression(const string& expression) {
 
     // Sprawdzamy, czy na stosie pozostała tylko jedna wartość, która będzie wynikiem.
     if (valuesStack.size() != 1) {
-        throw runtime_error("Error in expression evaluation");
+        throw runtime_error("Error in expression evaluation.");
     }
 
     // Zwracamy wynik (jedyną pozostałą wartość na stosie).
