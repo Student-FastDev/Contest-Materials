@@ -441,6 +441,217 @@ vector<int> generateFibonacci(int n) {
     return fibSequence;
 }
 
+// Funkcja sprawdzająca, czy trzy liczby mogą być bokami trójkąta.
+bool canFormTriangle(int a, int b, int c) {
+    return (a + b > c) && (a + c > b) && (b + c > a);
+}
+
+// Funkcja sprawdzająca, czy trzy liczby mogą być bokami trójkąta równoramiennego.
+bool isIsoscelesTriangle(int a, int b, int c) {
+    return canFormTriangle(a, b, c) && (a == b || a == c || b == c);
+}
+
+// Funkcja sprawdzająca, czy trzy liczby mogą być bokami trójkąta równobocznego.
+bool isEquilateralTriangle(int a, int b, int c) {
+    return canFormTriangle(a, b, c) && (a == b && b == c);
+}
+
+// Funkcja sprawdzająca, czy trzy liczby mogą być bokami trójkąta prostokątnego.
+bool isRightAngledTriangle(int a, int b, int c) {
+    if (!canFormTriangle(a, b, c)) return false;
+    int a2 = a * a, b2 = b * b, c2 = c * c;
+    return (a2 + b2 == c2) || (a2 + c2 == b2) || (b2 + c2 == a2);
+}
+
+// Funkcja obliczająca kąty trójkąta.
+vector<double> calculateTriangleAngles(int a, int b, int c) {
+    if (!canFormTriangle(a, b, c)) {
+        throw invalid_argument("The sides do not form a triangle.");
+    }
+    double A = acos((b * b + c * c - a * a) / (2.0 * b * c)) * 180.0 / M_PI;
+    double B = acos((a * a + c * c - b * b) / (2.0 * a * c)) * 180.0 / M_PI;
+    double C = 180.0 - A - B;
+    return {A, B, C};
+}
+
+
+// Funkcja porównująca długości dwóch słów.
+string compareWordLengths(const string& word1, const string& word2) {
+    if (word1.length() > word2.length()) {
+        return word1 + " is longer than " + word2 + ".";
+    } else if (word1.length() < word2.length()) {
+        return word2 + " is longer than " + word1 + ".";
+    } else {
+        return word1 + " and " + word2 + " has the same length.";
+    }
+}
+
+// Funkcja obliczająca wartość słowa jako sumę wartości ASCII jego znaków.
+int calculateWordValue(const string& word) {
+    int value = 0;
+    for (char c : word) {
+        value += static_cast<int>(c);
+    }
+    return value;
+}
+
+// Funkcja zmieniająca jeden znak w ciągu znaków.
+string changeLetter(string str, int index, char newChar) {
+    if (index < 0 || index >= str.length()) {
+        throw out_of_range("Index out of range.");
+    }
+    str[index] = newChar;
+    return str;
+}
+
+// Funkcja przesuwająca litery w ciągu znaków o określoną liczbę miejsc (szyfr Cezara).
+string caesarShift(const string& str, int shift) {
+    string result = str;
+    for (char& c : result) {
+        if (isalpha(c)) {
+            char base = islower(c) ? 'a' : 'A';
+            c = (c - base + shift) % 26 + base;
+        }
+    }
+    return result;
+}
+
+// Funkcja zwracająca n'tą liczbę tribonacciego.
+unsigned long long tribonacciNumber(int n) {
+    if (n == 0) return 0;
+    if (n == 1 || n == 2) return 1;
+    return tribonacciNumber(n - 1) + tribonacciNumber(n - 2) + tribonacciNumber(n - 3);
+}
+
+// Funkcja zwracająca n'tą liczbę Catalana.
+unsigned long long catalanNumber(int n) {
+    if (n <= 1) return 1;
+    unsigned long long result = 0;
+    for (int i = 0; i < n; ++i)
+        result += catalanNumber(i) * catalanNumber(n - i - 1);
+    return result;
+}
+
+// Funkcja zwracająca n'tą liczbę Bella.
+unsigned long long bellNumber(int n) {
+    vector<vector<unsigned long long>> bell(n + 1, vector<unsigned long long>(n + 1, 0));
+    bell[0][0] = 1;
+    for (int i = 1; i <= n; ++i) {
+        bell[i][0] = bell[i - 1][i - 1];
+        for (int j = 1; j <= i; ++j)
+            bell[i][j] = bell[i - 1][j - 1] + bell[i][j - 1];
+    }
+    return bell[n][0];
+}
+
+// Funkcja zwracająca n'tą liczbę harmoniczną.
+double harmonicNumber(int n) {
+    double result = 0.0;
+    for (int i = 1; i <= n; ++i)
+        result += 1.0 / i;
+    return result;
+}
+
+// Funkcja zwracająca n'tą liczbę Lucasa.
+unsigned long long lucasNumber(int n) {
+    if (n == 0) return 2;
+    if (n == 1) return 1;
+    return lucasNumber(n - 1) + lucasNumber(n - 2);
+}
+
+// Funkcja zwracająca n'tą liczbę tetraedralną.
+unsigned long long tetrahedralNumber(int n) {
+    return n * (n + 1) * (n + 2) / 6;
+}
+
+// Funkcja zwracająca n'tą liczbę pentagonalną.
+unsigned long long pentagonalNumber(int n) {
+    return n * (3 * n - 1) / 2;
+}
+
+// Funkcja zwracająca n'tą liczbę heksagonalną.
+unsigned long long hexagonalNumber(int n) {
+    return n * (2 * n - 1);
+}
+
+// Funkcja zwracająca n'tą liczbę heptagonalną.
+unsigned long long heptagonalNumber(int n) {
+    return n * (5 * n - 3) / 2;
+}
+
+// Funkcja zwracająca n'tą liczbę pierwszą.
+int nthPrime(int n) {
+    if (n == 1) return 2;
+    int count = 1;
+    int num = 3;
+    while (count < n) {
+        bool isPrime = true;
+        for (int i = 2; i * i <= num; ++i) {
+            if (num % i == 0) {
+                isPrime = false;
+                break;
+            }
+        }
+        if (isPrime) ++count;
+        num += 2;
+    }
+    return num - 2;
+}
+
+// Funkcja zwracająca super silnię liczby n.
+unsigned long long superFactorial(int n) {
+    unsigned long long result = 1;
+    for (int i = 1; i <= n; ++i) {
+        result *= factorialFunction(i);
+    }
+    return result;
+}
+
+// Function to return the hyperfactorial of a number n.
+unsigned long long hyperFactorial(int n) {
+    unsigned long long result = 1;
+    for (int i = 1; i <= n; ++i) {
+        result *= pow(i, i);
+    }
+    return result;
+}
+
+// Function to check if a number is an Armstrong number.
+bool isArmstrongNumber(int n) {
+    int original = n, sum = 0;
+    int numDigits = static_cast<int>(log10(n)) + 1;
+    while (n != 0) {
+        int digit = n % 10;
+        sum += pow(digit, numDigits);
+        n /= 10;
+    }
+    return sum == original;
+}
+
+// Function to generate Pascal's Triangle with a given number of rows.
+vector<vector<int>> generatePascalsTriangle(int numRows) {
+    vector<vector<int>> triangle(numRows);
+    for (int i = 0; i < numRows; ++i) {
+        triangle[i].resize(i + 1);
+        triangle[i][0] = triangle[i][i] = 1;
+        for (int j = 1; j < i; ++j) {
+            triangle[i][j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
+        }
+    }
+    return triangle;
+}
+
+// Function to return the sum of squares of the first n natural numbers.
+unsigned long long sumOfSquares(int n) {
+    return (n * (n + 1) * (2 * n + 1)) / 6;
+}
+
+// Function to return the sum of cubes of the first n natural numbers.
+unsigned long long sumOfCubes(int n) {
+    unsigned long long sum = (n * (n + 1)) / 2;
+    return sum * sum;
+}
+
 int main() {
     return 0;
 }
