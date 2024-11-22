@@ -36,7 +36,7 @@ public:
 };
 
 // Klasa dziedzicząca po Base z typem string.
-class StringChild : public Base< string> {
+class StringChild : public Base<string> {
 public:
     StringChild(string value) : Base<string>(value) {}
     
