@@ -1,4 +1,4 @@
-# Contest Materials
+# Contest-Materials
 
 Welcome to my repository of competition preparation resources! This repository contains a curated collection of useful materials that I've gathered to prepare for various contests and challenges effectively.  
 
