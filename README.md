@@ -17,7 +17,5 @@ Welcome to my repository of competition preparation resources! This repository c
 ---
 
 <div align="center">  
-<img src="https://oi.edu.pl/static/images/logo_oi.png" alt="OI Logo" width="50px">  
 <img src="https://cdn.iconscout.com/icon/free/png-256/free-code-forces-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-2-pack-logos-icons-2944796.png?f=webp&w=256" alt="Codeforces Logo" width="60px">  
-<img src="https://i.imgur.com/1mSIKP4.png" alt="GeeksforGeeks Logo" width="60px">  
 </div>  
